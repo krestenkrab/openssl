@@ -81,7 +81,7 @@
 # include <sys/stat.h>
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN32_WCE)
 #define stat	_stat
 #define chmod	_chmod
 #define open	_open

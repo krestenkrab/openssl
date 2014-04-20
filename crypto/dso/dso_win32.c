@@ -689,7 +689,6 @@ static int win32_pathbyaddr(void *addr,char *path,int sz)
 	CREATETOOLHELP32SNAPSHOT create_snap;
 	CLOSETOOLHELP32SNAPSHOT  close_snap;
 	MODULE32 module_first, module_next;
-	int len;
  
 	if (addr == NULL)
 		{

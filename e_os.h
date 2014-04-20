@@ -268,7 +268,11 @@ extern "C" {
 	* alone, while NT 4.0 and above interfaces ought to be linked with
 	* GetProcAddress at run-time.
 	*/
-#      define _WIN32_WINNT 0x0400
+#      ifdef _WIN32_WCE 
+#        define _WIN32_WINNT _WIN32_WCE
+#      else
+#        define _WIN32_WINNT 0x0400
+#      endif
 #    endif
 #    if !defined(OPENSSL_NO_SOCK) && defined(_WIN32_WINNT)
        /*
@@ -335,9 +339,9 @@ static unsigned int _strlen31(const char *str)
 #  include <io.h>
 #  include <fcntl.h>
 
-#  ifdef OPENSSL_SYS_WINCE
-#    define OPENSSL_NO_POSIX_IO
-#  endif
+  //#  ifdef OPENSSL_SYS_WINCE
+  //#    define OPENSSL_NO_POSIX_IO
+  //#  endif
 
 #  if defined (__BORLANDC__)
 #    define _setmode setmode
@@ -499,7 +503,8 @@ static unsigned int _strlen31(const char *str)
 #      endif
 #      if !defined(IPPROTO_IP)
          /* winsock[2].h was included already? */
-#        include <winsock.h>
+#        include <winsock2.h>
+#        include <ws2tcpip.h>
 #      endif
 #      ifdef getservbyname
 #        undef getservbyname

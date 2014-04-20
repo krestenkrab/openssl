@@ -90,6 +90,7 @@ static void ERR_CAPI_error(int function, int reason, char *file, int line);
 #define CAPI_F_CERT_SELECT_DIALOG			 117
 #define CAPI_F_CLIENT_CERT_SELECT			 116
 #define CAPI_F_WIDE_TO_ASC				 113
+#define CAPI_F_ASC_TO_WIDE				 118
 
 /* Reason codes. */
 #define CAPI_R_CANT_CREATE_HASH_OBJECT			 99

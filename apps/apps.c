@@ -148,8 +148,10 @@
 #undef NON_MAIN
 
 #ifdef _WIN32
+#ifndef rename
 static int WIN32_rename(const char *from, const char *to);
 #define rename(from,to) WIN32_rename((from),(to))
+#endif
 #endif
 
 typedef struct {

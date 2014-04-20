@@ -70,6 +70,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#if _WIN32_WCE >= 0x600
+#define _read read
+#define _write write
+#endif
+
+
 #ifndef OPENSSL_SYS_MSDOS
 #if !defined(OPENSSL_SYS_VMS) || defined(__DECC)
 #ifdef OPENSSL_UNISTD

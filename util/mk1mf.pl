@@ -684,7 +684,7 @@ foreach (values %lib_nam)
 
 # hack to add version info on MSVC
 if (($platform eq "VC-WIN32") || ($platform eq "VC-WIN64A")
-	|| ($platform eq "VC-WIN64I") || ($platform eq "VC-NT")) {
+	|| ($platform eq "VC-WIN64I") || ($platform eq "VC-NT") || ($platform eq "VC-CE")) {
     $rules.= <<"EOF";
 \$(OBJ_D)\\\$(CRYPTO).res: ms\\version32.rc
 	\$(RSC) /fo"\$(OBJ_D)\\\$(CRYPTO).res" /d CRYPTO ms\\version32.rc
@@ -721,7 +721,7 @@ if ($fips)
 		{
 		$rules.= &do_lib_rule("\$(CRYPTOOBJ) \$(O_FIPSCANISTER)",
 				"\$(O_CRYPTO)", "$crypto",
-				$shlib, "\$(SO_CRYPTO)", "\$(BASEADDR)");
+			$shlib, "\$(SO_CRYPTO)", "\$(BASEADDR)");
 		}
 	else
 		{
@@ -799,6 +799,7 @@ sub var_add
 	return("") if $no_whirlpool && $dir =~ /\/whrlpool/;
 
 	$val =~ s/^\s*(.*)\s*$/$1/;
+	$dir =~ s/^\s*([^\r\n\s]*)[\r\n\s]*$/$1/;
 	@a=split(/\s+/,$val);
 	grep(s/\.[och]$//,@a) unless $keepext;
 
@@ -850,7 +851,7 @@ sub var_add
 
 	@a=grep(!/(^dh)|(_sha1$)|(m_dss1$)/,@a) if $no_sha1;
 
-	grep($_="$dir/$_",@a);
+	grep($_="${dir}/$_",@a);
 	@a=grep(!/(^|\/)s_/,@a) if $no_sock;
 	@a=grep(!/(^|\/)bio_sock/,@a) if $no_sock;
 	$ret=join(' ',@a)." ";
@@ -908,7 +909,7 @@ sub do_defs
 		$ret.=$t;
 		}
 	# hack to add version info on MSVC
-	if ($shlib && (($platform eq "VC-WIN32") || ($platfrom eq "VC-WIN64I") || ($platform eq "VC-WIN64A") || ($platform eq "VC-NT")))
+	if ($shlib && (($platform eq "VC-WIN32") || ($platfrom eq "VC-WIN64I") || ($platform eq "VC-WIN64A") || ($platform eq "VC-NT") || ($platform eq "VC-CE")))
 		{
 		if ($var eq "CRYPTOOBJ")
 			{ $ret.="\$(OBJ_D)\\\$(CRYPTO).res "; }
@@ -949,7 +950,9 @@ sub do_compile_rule
 		{
 		$n=&bname($_);
 		$d=&dname($_);
-		if (-f "${_}.c")
+		$uc= "${d}${o}" . ucfirst($n) . ".c";
+		if (-f "${_}.c" or
+		    -f $uc)
 			{
 			$ret.=&cc_compile_target("$to${o}$n$obj","${_}.c",$ex)
 			}
@@ -964,7 +967,7 @@ sub do_compile_rule
 			{
 			$ret.=&Sasm_compile_target("$to${o}$n$obj",$s,$n);
 			}
-		else	{ die "no rule for $_"; }
+		else	{ die "no rule for $_ / $uc; to:$to files:$files ex:$ex"; }
 		}
 	return($ret);
 	}

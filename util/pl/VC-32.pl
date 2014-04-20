@@ -119,8 +119,8 @@ elsif ($FLAVOR =~ /CE/)
     $base_cflags.=" $wcecdefs";
     $base_cflags.=' -I$(WCECOMPAT)/include'		if (defined($ENV{'WCECOMPAT'}));
     $base_cflags.=' -I$(PORTSDK_LIBPATH)/../../include'	if (defined($ENV{'PORTSDK_LIBPATH'}));
-    $opt_cflags=' /MC /O1i';	# optimize for space, but with intrinsics...
-    $dbg_cflags=' /MC /Od -DDEBUG -D_DEBUG';
+    $opt_cflags=' /GS- /O1i';	# optimize for space, but with intrinsics...
+    $dbg_cflags=' /GS- /Od -DDEBUG -D_DEBUG';
     $lflags="/nologo /opt:ref $wcelflag";
     }
 else	# Win32
@@ -165,7 +165,7 @@ $rsc="rc";
 $efile="/out:";
 $exep='.exe';
 if ($no_sock)		{ $ex_libs=''; }
-elsif ($FLAVOR =~ /CE/)	{ $ex_libs='winsock.lib'; }
+elsif ($FLAVOR =~ /CE/)	{ $ex_libs='ws2.lib'; }
 else			{ $ex_libs='ws2_32.lib'; }
 
 if ($FLAVOR =~ /CE/)

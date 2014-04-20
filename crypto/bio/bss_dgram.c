@@ -59,15 +59,16 @@
 
 
 #include <stdio.h>
-#include <errno.h>
 #define USE_SOCKETS
 #include "cryptlib.h"
+#include <errno.h>
 
 #include <openssl/bio.h>
 #ifndef OPENSSL_NO_DGRAM
 
 #if defined(OPENSSL_SYS_WIN32) || defined(OPENSSL_SYS_VMS)
 #include <sys/timeb.h>
+#include <ws2tcpip.h>
 #endif
 
 #ifndef OPENSSL_NO_SCTP

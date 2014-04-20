@@ -18,7 +18,7 @@
 #define	UP_ftell	ftell
 #define	UP_fflush	fflush
 #define	UP_ferror	ferror
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN32_WCE)
 #define	UP_fileno	_fileno
 #define	UP_open		_open
 #define	UP_read		_read

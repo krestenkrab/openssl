@@ -65,6 +65,9 @@
 /*extern int errno;*/
 OPENSSL_IMPLEMENT_GLOBAL(int,DES_rw_mode,DES_PCBC_MODE)
 
+#if _WIN32_WCE >= 0x600
+#define _read read
+#endif
 
 /*
  * WARNINGS:

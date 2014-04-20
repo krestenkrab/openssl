@@ -72,6 +72,7 @@ NETDB_DEFINE_CONTEXT
 
 #ifndef OPENSSL_NO_SOCK
 
+#include <ws2tcpip.h>
 #include <openssl/dso.h>
 
 #define SOCKET_PROTOCOL IPPROTO_TCP
