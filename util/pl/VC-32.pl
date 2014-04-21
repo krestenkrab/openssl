@@ -79,7 +79,7 @@ elsif ($FLAVOR =~ /CE/)
     #
     $wcevers = $ENV{'OSVERSION'};			# WCENNN
     die '%OSVERSION% value is insane'	if ($wcevers !~ /^WCE([1-9])([0-9]{2})$/);
-    $wcecdefs = "-D_WIN32_WCE=$1$2 -DUNDER_CE=$1$2";	# -D_WIN32_WCE=NNN
+    $wcecdefs = "-D_WIN32_WCE=0x$1$2 -DUNDER_CE=0x$1$2";	# -D_WIN32_WCE=NNN
     $wcelflag = "/subsystem:windowsce,$1.$2";		# ...,N.NN
 
     $wceplatf =  $ENV{'PLATFORM'};
@@ -115,13 +115,14 @@ elsif ($FLAVOR =~ /CE/)
     }
 
     $cc='$(CC)';
-    $base_cflags=' /W3 /WX /GF /Gy /nologo -DUNICODE -D_UNICODE -DOPENSSL_SYSNAME_WINCE -DWIN32_LEAN_AND_MEAN -DL_ENDIAN -DDSO_WIN32 -DNO_CHMOD -DOPENSSL_SMALL_FOOTPRINT';
+    $base_cflags=' /Zl /W3 /WX /GF /Gy /nologo -DUNICODE -D_UNICODE -DOPENSSL_SYSNAME_WINCE -DWIN32_LEAN_AND_MEAN -DL_ENDIAN -DDSO_WIN32 -DNO_CHMOD -DOPENSSL_SMALL_FOOTPRINT ';
     $base_cflags.=" $wcecdefs";
+    $base_cflags .= (($shlib || $fips) ?' /MD':' /MT');
     $base_cflags.=' -I$(WCECOMPAT)/include'		if (defined($ENV{'WCECOMPAT'}));
     $base_cflags.=' -I$(PORTSDK_LIBPATH)/../../include'	if (defined($ENV{'PORTSDK_LIBPATH'}));
     $opt_cflags=' /GS- /O1i';	# optimize for space, but with intrinsics...
     $dbg_cflags=' /GS- /Od -DDEBUG -D_DEBUG';
-    $lflags="/nologo /opt:ref $wcelflag";
+    $lflags="/nologo /opt:ref $wcelflag /NODEFAULTLIB:\"oldnames.lib\" crypt32.lib corelibc.lib coredll.lib";
     }
 else	# Win32
     {
