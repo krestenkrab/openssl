@@ -339,9 +339,9 @@ static unsigned int _strlen31(const char *str)
 #  include <io.h>
 #  include <fcntl.h>
 
-  //#  ifdef OPENSSL_SYS_WINCE
-  //#    define OPENSSL_NO_POSIX_IO
-  //#  endif
+#  ifdef OPENSSL_SYS_WINCE
+  // #    define OPENSSL_NO_POSIX_IO
+#  endif
 
 #  if defined (__BORLANDC__)
 #    define _setmode setmode
