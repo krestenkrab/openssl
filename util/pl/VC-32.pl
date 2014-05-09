@@ -171,7 +171,7 @@ else			{ $ex_libs='ws2_32.lib'; }
 
 if ($FLAVOR =~ /CE/)
 	{
-	$ex_libs.=' $(WCECOMPAT)/lib/wcecompatex.lib'	if (defined($ENV{'WCECOMPAT'}));
+	$ex_libs.=' $(WCECOMPAT)/lib/wcecompat.lib'	if (defined($ENV{'WCECOMPAT'}));
 	$ex_libs.=' $(PORTSDK_LIBPATH)/portlib.lib'	if (defined($ENV{'PORTSDK_LIBPATH'}));
 	$ex_libs.=' /nodefaultlib:oldnames.lib coredll.lib corelibc.lib' if ($ENV{'TARGETCPU'} eq "X86");
 	}
