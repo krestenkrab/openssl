@@ -56,17 +56,17 @@ const char *LP_find_file(LP_DIR_CTX **ctx, const char *directory)
 {
   if (ctx == NULL || directory == NULL)
     {
-      errno = EINVAL;
+      SET_ERRNO( EINVAL );
       return 0;
     }
 
-  errno = 0;
+  SET_ERRNO( 0 );
   if (*ctx == NULL)
     {
       *ctx = (LP_DIR_CTX *)malloc(sizeof(LP_DIR_CTX));
       if (*ctx == NULL)
 	{
-	  errno = ENOMEM;
+	  SET_ERRNO( ENOMEM );
 	  return 0;
 	}
       memset(*ctx, '\0', sizeof(LP_DIR_CTX));
@@ -82,7 +82,7 @@ const char *LP_find_file(LP_DIR_CTX **ctx, const char *directory)
 	    {
 	      free(*ctx);
 	      *ctx = NULL;
-	      errno = ENOMEM;
+	      SET_ERRNO( ENOMEM );
 	      return 0;
 	    }
 
@@ -103,7 +103,7 @@ const char *LP_find_file(LP_DIR_CTX **ctx, const char *directory)
 	{
 	  free(*ctx);
 	  *ctx = NULL;
-	  errno = EINVAL;
+	  SET_ERRNO( EINVAL );
 	  return 0;
 	}
     }
@@ -148,6 +148,6 @@ int LP_find_file_end(LP_DIR_CTX **ctx)
       *ctx = NULL;
       return 1;
     }
-  errno = EINVAL;
+  SET_ERRNO( EINVAL );
   return 0;
 }
